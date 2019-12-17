@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage ('SCM Checkout') {
+            steps {
+                git credentialsId: 'git-1',
+                url: 'https://github.com/pranatgit/jenkins-pranat-javahomes',
+                branch: 'master'
+            }
+        }
+        stage ('Maven Build'){
+            steps {
+                script {
+                def mvnHome = tool name: 'maven3', type: 'maven'
+                sh label: '', script: "${mvnHome}/bin/mvn clean package"
+                 }
+            }
+        }
+    }   
+}
